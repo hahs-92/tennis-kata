@@ -18,9 +18,37 @@ public class TennisGame1 implements TennisGame {
             m_score2 += 1;
     }
 
+    public String getScoreByPoints(int tempScore, String scoreSpec) {
+        switch(tempScore) {
+            case 0:
+                return scoreSpec.concat("Love");
+            case 1:
+                return scoreSpec.concat("Fifteen");
+            case 2:
+                return scoreSpec.concat("Thirty");
+            default:
+                return scoreSpec.concat("Forty");
+        }
+    }
+
+    public String getScoreWhenScoreLessThanFour(int score1, int score2) {
+        String score = "";
+        int tempScore = 0;
+
+        for (int i=1; i<3; i++) {
+            if (i == 1) {
+                tempScore = score1;
+            } else {
+                score = score.concat("-");
+                tempScore = score2;
+            }
+            score = getScoreByPoints(tempScore, score);
+        }
+        return score;
+    }
+
     public String getScoreWhenScoresGreaterThanFour(int score) {
         if (score >=2) return "Win for player1";
-
         switch (score) {
             case 1:
                 return "Advantage player1";
@@ -47,47 +75,18 @@ public class TennisGame1 implements TennisGame {
                 return  "Deuce";
         }
     }
+
     private boolean isScoreEquals(int score1, int score2) {
         return  score1 == score2;
     }
 
-
     public String getScore() {
-        String score = "";
-        int tempScore=0;
-
-        if (isScoreEquals(m_score1, m_score2))
-        {
+        if (isScoreEquals(m_score1, m_score2)) {
            return getScoreWhenScoresEquals(m_score1);
         }
-
-        if (isScoreGreaterThanFour(m_score1,m_score2))
-        {
+        if (isScoreGreaterThanFour(m_score1,m_score2)) {
             return getScoreWhenScoresGreaterThanFour(m_score1 - m_score2);
         }
-        else
-        {
-            for (int i=1; i<3; i++)
-            {
-                if (i==1) tempScore = m_score1;
-                else { score+="-"; tempScore = m_score2;}
-                switch(tempScore)
-                {
-                    case 0:
-                        score+="Love";
-                        break;
-                    case 1:
-                        score+="Fifteen";
-                        break;
-                    case 2:
-                        score+="Thirty";
-                        break;
-                    case 3:
-                        score+="Forty";
-                        break;
-                }
-            }
-        }
-        return score;
+        return getScoreWhenScoreLessThanFour(m_score1, m_score2);
     }
 }
