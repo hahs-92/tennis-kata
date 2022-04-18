@@ -1,6 +1,5 @@
 
 public class TennisGame1 implements TennisGame {
-    
     private int m_score1 = 0;
     private int m_score2 = 0;
     private String player1Name;
@@ -16,6 +15,17 @@ public class TennisGame1 implements TennisGame {
             m_score1 += 1;
         else
             m_score2 += 1;
+    }
+
+    @Override
+    public String getScore() {
+        if (isScoreEquals(m_score1, m_score2)) {
+            return getScoreWhenScoresEquals(m_score1);
+        }
+        if (isScoreGreaterThanFour(m_score1,m_score2)) {
+            return getScoreWhenScoresGreaterThanFour(m_score1 - m_score2);
+        }
+        return getScoreWhenScoreLessThanFour(m_score1, m_score2);
     }
 
     public String getScoreByPoints(int tempScore, String scoreSpec) {
@@ -78,15 +88,5 @@ public class TennisGame1 implements TennisGame {
 
     private boolean isScoreEquals(int score1, int score2) {
         return  score1 == score2;
-    }
-
-    public String getScore() {
-        if (isScoreEquals(m_score1, m_score2)) {
-           return getScoreWhenScoresEquals(m_score1);
-        }
-        if (isScoreGreaterThanFour(m_score1,m_score2)) {
-            return getScoreWhenScoresGreaterThanFour(m_score1 - m_score2);
-        }
-        return getScoreWhenScoreLessThanFour(m_score1, m_score2);
     }
 }
