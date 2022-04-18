@@ -18,10 +18,15 @@ public class TennisGame1 implements TennisGame {
             m_score2 += 1;
     }
 
+    private boolean isScoreEquals(int score1, int score2) {
+        return  score1 == score2;
+    }
+
+
     public String getScore() {
         String score = "";
         int tempScore=0;
-        if (m_score1==m_score2)
+        if (isScoreEquals(m_score1, m_score2))
         {
             switch (m_score1)
             {
