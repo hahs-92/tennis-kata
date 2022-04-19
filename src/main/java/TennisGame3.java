@@ -1,6 +1,4 @@
-
 public class TennisGame3 implements TennisGame {
-    
     private int p2;
     private int p1;
     private String p1N;
@@ -12,25 +10,43 @@ public class TennisGame3 implements TennisGame {
     }
 
     public String getScore() {
-        String s;
-        if (p1 < 4 && p2 < 4 && !(p1 + p2 == 6)) {
-            String[] p = new String[]{"Love", "Fifteen", "Thirty", "Forty"}; 
-            s = p[p1];
-            return (p1 == p2) ? s + "-All" : s + "-" + p[p2];
-        } else {
-            if (p1 == p2)
-                return "Deuce";
-            s = p1 > p2 ? p1N : p2N;
-            return ((p1-p2)*(p1-p2) == 1) ? "Advantage " + s : "Win for " + s;
+        if (isPGreaterThan4AndNotEqualTo6(p1, p2)) {
+            String[] p = new String[]{"Love", "Fifteen", "Thirty", "Forty"};
+            return getScoreWhenP1EqualThanP2(p1,p2,p[p1],p[p2]);
         }
+        if (p1 == p2) return "Deuce";
+
+        return getScoreWhenP1LessP2EqualToOne(p1, p2, getStringScore(p1, p2));
     }
-    
+
+    private String getScoreWhenP1EqualThanP2(int p1, int p2, String s, String p) {
+        return (p1 == p2) ? s + "-All" : s + "-" + p;
+    }
+
+    private String getScoreWhenP1LessP2EqualToOne(int p1, int p2, String s) {
+        return ((subtractPoints(p1,p2)) * subtractPoints(p1,p2) == 1) ? "Advantage " + s : "Win for " + s;
+    }
+
+    private int subtractPoints(int p1, int p2) {
+        return p1 - p2;
+    }
+
+    private boolean isPGreaterThan4AndNotEqualTo6(int p1, int p2) {
+        return (isGreaterThanFour(p1,p2)) && (p1 + p2 != 6);
+    }
+
+    private boolean isGreaterThanFour(int p1, int p2) {
+        return p1 < 4 && p2 < 4;
+    }
+
+    private String getStringScore(int p1, int p2) {
+        return p1 > p2 ? p1N : p2N;
+    }
+
     public void wonPoint(String playerName) {
         if (playerName == "player1")
             this.p1 += 1;
         else
             this.p2 += 1;
-        
     }
-
 }
